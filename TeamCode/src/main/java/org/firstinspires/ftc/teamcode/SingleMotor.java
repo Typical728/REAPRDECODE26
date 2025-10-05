@@ -68,7 +68,7 @@ public class SingleMotor extends LinearOpMode {
         // Wait for the game to start (driver presses START)
         waitForStart();
         runtime.reset();
-
+        
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             double x = gamepad1.right_stick_x; // Rotation
