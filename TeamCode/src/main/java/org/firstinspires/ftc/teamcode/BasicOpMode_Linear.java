@@ -71,6 +71,7 @@ public class BasicOpMode_Linear extends LinearOpMode {
        DcMotor motorBackLeft = hardwareMap.get(DcMotor.class, "motorBackLeft");
        DcMotor motorFrontRight = hardwareMap.get(DcMotor.class, "motorFrontRight");
        DcMotor motorBackRight = hardwareMap.get(DcMotor.class, "motorBackRight");
+       DcMotor test = hardwareMap.get(DcMotor.class, "test");
 
        // Reverse left motors to ensure proper driving direction
        motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -95,6 +96,10 @@ public class BasicOpMode_Linear extends LinearOpMode {
             dividePower = Math.abs(dividePower - 1.0) < 0.1 ? 1.5 : 1.0;
             sleep(500);  // Prevents rapid toggling
         }
+
+        // test a single motor
+        if (gamepad1.dpad_down)
+            test.setPower(1);
 
         double y = -gamepad1.left_stick_y; // Forward/backward (inverted)
         double x = gamepad1.left_stick_x; // Strafing
