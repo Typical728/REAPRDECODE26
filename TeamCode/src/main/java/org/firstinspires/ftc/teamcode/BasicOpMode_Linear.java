@@ -67,10 +67,10 @@ public class BasicOpMode_Linear extends LinearOpMode {
         Gamepad currPad1 = new Gamepad();
 
        // Initialize drive motors
-       DcMotor motorFrontLeft = hardwareMap.get(DcMotor.class, "motorFrontLeft");
-       DcMotor motorBackLeft = hardwareMap.get(DcMotor.class, "motorBackLeft");
-       DcMotor motorFrontRight = hardwareMap.get(DcMotor.class, "motorFrontRight");
-       DcMotor motorBackRight = hardwareMap.get(DcMotor.class, "motorBackRight");
+       DcMotor motorFrontLeft = hardwareMap.get(DcMotor.class, "kumar");
+       DcMotor motorBackLeft = hardwareMap.get(DcMotor.class, "relocator");
+       DcMotor motorFrontRight = hardwareMap.get(DcMotor.class, "dexter");
+       DcMotor motorBackRight = hardwareMap.get(DcMotor.class, "teleporter");
 
        // Reverse left motors to ensure proper driving direction
        motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
