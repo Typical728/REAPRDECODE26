@@ -50,38 +50,20 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Basic: Linear OpMode", group="Linear OpMode")
+@TeleOp(name="Test Single Motor", group="Linear OpMode")
 @Disabled
-public class BasicOpMode_Linear extends LinearOpMode {
+public class SingleMotor extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftDrive = null;
-    private DcMotor rightDrive = null;
 
     @Override
     public void runOpMode() {
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
-
-        Gamepad currPad1 = new Gamepad();
-
-       // Initialize drive motors
-       DcMotor motorFrontLeft = hardwareMap.get(DcMotor.class, "motorFrontLeft");
-       DcMotor motorBackLeft = hardwareMap.get(DcMotor.class, "motorBackLeft");
-       DcMotor motorFrontRight = hardwareMap.get(DcMotor.class, "motorFrontRight");
-       DcMotor motorBackRight = hardwareMap.get(DcMotor.class, "motorBackRight");
-
-       // Reverse left motors to ensure proper driving direction
-       motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-       motorBackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        Gamepad gamepad1 = new Gamepad();
+        DcMotor test = hardwareMap.get(DcMotor.class, "test");
        
-       // Set all drive motors to brake mode when power is zero
-       motorFrontLeft.setZeroPowerBehavior(ZeroPowerBehavior.BRAKE);
-       motorBackLeft.setZeroPowerBehavior(ZeroPowerBehavior.BRAKE);
-       motorFrontRight.setZeroPowerBehavior(ZeroPowerBehavior.BRAKE);
-       motorBackRight.setZeroPowerBehavior(ZeroPowerBehavior.BRAKE);
-
+        // Set all drive motors to brake mode when power is zero
+        test.setZeroPowerBehavior(ZeroPowerBehavior.BRAKE);
 
         // Wait for the game to start (driver presses START)
         waitForStart();
@@ -89,27 +71,8 @@ public class BasicOpMode_Linear extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-
-           // Toggle speed reduction mode
-           if (gamepad1.left_stick_button || gamepad1.dpad_right) {
-            dividePower = Math.abs(dividePower - 1.0) < 0.1 ? 1.5 : 1.0;
-            sleep(500);  // Prevents rapid toggling
+            double x = gamepad1.right_stick_x; // Rotation
+            test.setPower(x);
         }
-
-        double y = -gamepad1.left_stick_y; // Forward/backward (inverted)
-        double x = gamepad1.left_stick_x; // Strafing
-        double rx = gamepad1.right_stick_x; // Rotation
-
-        // Reset IMU yaw when pressing options button (Start on Xbox controllers)
-        if (gamepad1.options) {
-            imu.resetYaw();
-        }
-        // Normalize motor powers to prevent values outside the range [-1,1]
-        double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
-        motorFrontLeft.setPower((rotY + rotX + rx) / denominator / dividePower);
-        motorBackLeft.setPower((rotY - rotX + rx) / denominator / dividePower);
-        motorFrontRight.setPower((rotY - rotX - rx) / denominator / dividePower);
-        motorBackRight.setPower((rotY + rotX - rx) / denominator / dividePower);
-
     }
 }
